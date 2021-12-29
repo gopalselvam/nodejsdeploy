@@ -1,0 +1,29 @@
+a. How do you make the service scalable?
+  - gke prespective scalling can be done in host side and kubernetes side as well
+   host side : while creating cluster we define node-pool parametes which autoscales (its in my code gke.tf)
+   kubernetes side : using replicaset you can scale the services , however to autoscale 
+   use Horizontal pod autoscaler (HPA) via yaml configuration 
+
+
+b. What CI/CD pipeline would you use (if not done in code, please describe every
+step from the commit of new code until the new code is running in production)?
+  - in my current environment we are using jenking for CICD (example code i used Declarative pipeline )
+  
+c. How would you store and deploy secrets (such as API keys)?
+  - configmaps is not sutable , since its API key which is sensitive, so go with kubernets secrets 
+    Turn API keys into secert using # kubectl create secret (command) and mount as volume (like name and secretName parametes)
+	
+d. How do you test how well your infrastructure scales (when many requests come
+in)?
+   perform load test :
+   example - using helm chart install "Metrics server" which collects resource metrics from kubernetes nodes and pods 
+
+e. How do you provide an SSL certificate for your service?
+    while configuring ingress rules to expose HTTP/HTTPS routes we define SSL certificate 
+	
+	example : (this example in ingress will be mapped to kind:secret)
+	spec:
+	tls:
+	-hosts"
+	-myapp.com
+	secretName:myapp-secret-tls 
